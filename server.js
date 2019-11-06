@@ -1,15 +1,14 @@
 const express = require('express');
-// const morgan = require("morgan");
-
+const morgan = require("morgan");
 const userRouter = require("./users/userRouter.js")
-
 const server = express();
 
 
 server.use(express.json());
-server.use("/api/users", userRouter)
-// server.use(morgan("dev"));
 server.use(logger)
+server.use(morgan("dev"));
+server.use("/api/users", userRouter)
+
 
 server.get('/', (req, res) => {
   res.send(`<h2>Let's write some middleware!</h2>`)
