@@ -7,9 +7,13 @@ router.post("/", (req, res) => {
 
 });
 
+//----------------------------------------------------------------
+
 router.post("/:id/posts", (req, res) => {
 
 });
+
+//----------------------------------------------------------------
 
 router.get("/", (req, res) => {
     Users.get(req.query)
@@ -19,8 +23,9 @@ router.get("/", (req, res) => {
     .catch(err => {
         res.status(500).json({message:"Sorry, could not retriever information about users."})
     })
-
 });
+
+//---------------------------------------------------------------
 
 router.get("/:id", (req, res) => {
     const {id} = req.params
@@ -29,25 +34,40 @@ router.get("/:id", (req, res) => {
         if (user) {
             res.status(200).json(user)
         } else {
-            res.status(404).json({ message:` The use with Id# ${id} does not exist`})
+            res.status(404).json({ message:` The user with Id# ${id} does not exist.`})
         }
     })
     .catch(err => {
-        res.status(500).json({errorMessage:"The uses information could not be retrieved"})
+        res.status(500).json({errorMessage:"The user information could not be retrieved."})
     })
 });
+//-------------------------------------------------------------------
 
 router.get("/:id/posts", (req, res) => {
-
+    const {id} = req.params
+    Users.getUserPosts(id)
+    .then(posts => {
+        if(posts) {
+            res.status(200).json(posts)
+        } else { 
+            res.status(404).json({message:"User posts do not exist"})
+        }
+    })
+    .catch(err => {
+        res.status(500).json({message:"Could not retrieve the user's posts"})
+    })
 });
+//-------------------------------------------------------------------
 
 router.delete("/:id", (req, res) => {
 
 });
+//--------------------------------------------------------------------
 
 router.put("/:id", (req, res) => {
 
 });
+//--------------------------------------------------------------------
 
 //custom middleware
 
