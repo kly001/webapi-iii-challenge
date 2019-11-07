@@ -51,15 +51,11 @@ router.get("/:id",validateUserId, (req, res) => {
 });
 //-------------------------------------------------------------------
 
-router.get("/:id/posts", (req, res) => {
+router.get("/:id/posts",validateUserId, (req, res) => {
     const {id} = req.params
     Users.getUserPosts(id)
     .then(posts => {
-        if(posts.length>0) {
             res.status(200).json(posts)
-        } else { 
-            res.status(404).json({message:"User posts do not exist"})
-        }
     })
     .catch(err => {
         res.status(500).json({message:"Could not retrieve the user's posts"})
@@ -67,7 +63,7 @@ router.get("/:id/posts", (req, res) => {
 });
 //-------------------------------------------------------------------
 
-router.delete("/:id", (req,res) => {
+router.delete("/:id", validateUserId,(req,res) => {
     const {id} = req.params
     Users.remove(id) 
     .then(delUser => {
@@ -81,6 +77,8 @@ router.delete("/:id", (req,res) => {
         res.status(500).json({message:"The user could not be removed."})
     })
 })
+
+
 //--------------------------------------------------------------------
 
 router.put("/:id", (req, res) => {
