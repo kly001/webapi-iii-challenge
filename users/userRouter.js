@@ -1,6 +1,7 @@
 const express = "express";
 const router = require("express").Router();
 const Users = require("./userDb.js")
+const Posts = require("../posts/postDb.js")
 
 
 
@@ -17,8 +18,15 @@ router.post("/",validateUser,(req,res) => {
 
 //----------------------------------------------------------------
 
-router.post("/:id/posts", (req, res) => {
-
+router.post("/:id/posts",validateUserId, validatePost,(req, res) => {
+   const userInfo = req.body
+   Posts.insert(userInfo)
+   .then(post => {
+       res.status(201).json(post)
+   })
+   .catch(err => {
+       res.status(500).json({error: "There was an error adding the post."})
+   })
 });
 
 //----------------------------------------------------------------
