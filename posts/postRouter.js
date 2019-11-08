@@ -38,7 +38,7 @@ router.put('/:id',validatePostId, (req, res) => {
     const {id} = req.params 
     const postEdits = req.body
     Posts.update(id, postEdits)
-    .then(post => {
+    .then(postEdits => {
         res.status(204).json({message:`Post with Id# ${id} has been successfully updated.`})
     })
     .catch(err => {
